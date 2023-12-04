@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Listagem de Filmes</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      function exclui(id_filme){
+          Swal.fire({
+            title: "Tem certeza que deseja excluir?",
+            text: "Você não poderá recuperar os dados excluídos!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sim"
+          }).then((result) => {
+            if (result.isConfirmed) {                                   
+                $.ajax({                         
+                  url: "/filmes/delete/" + id_filme, 
+                  type: "DELETE", 
+                  success: function (res) { 
+                    $(location).attr("href", "/filmes/listar"); 
+                  },
+                });
+        
+            }
+  });
+      }
+    </script>
+
+  </head>
+  <body>
+    <h1>Listagem de Filmes</h1>
+    <a href="/filmes/add" class="btn btn-success" style="margin-bottom: 10px;">Incluir</a>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Produtora</th>
+          <th scope="col">Horas Totais</th>
+          <th scope="col">Gênero</th>
+          <th scope="col">Operações</th>
+        </tr>
+      </thead>  
+
+      <tbody>
+        <% for
+        (item of resultado) {%>      
+          <tr>
+            <td scope="row"><%= item.id_filme%></td>
+            <td scope="row"><%= item.nome_filme%></td>
+            <td scope="row"><%= item.nome_produtora%></td>
+            <td scope="row"><%= item.horas_filme%></td>
+            <td scope="row"><%= item.nome_genero%></td>
+            <td>
+              <a href="/filmes/edit/<%=item.id_filme%>" class="btn btn-primary">Editar</a>
+              <button type="button" class="btn btn-danger" onclick="exclui(<%= item.id_filme%>)">Excluir</button>
+            </td>
+          </tr>
+        <%}%>
+      </tbody>
+    </table>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+</html>
