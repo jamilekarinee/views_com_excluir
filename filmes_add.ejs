@@ -75,6 +75,22 @@
       setProdutoras();
       });
 
+      function setHoras(){
+          $.ajax({
+            success: function(res){
+              let horas = $("#horas_totais").val(); 
+              $("#inputhoras option").each(function(){
+                if ($(this).val() == produtoras){
+                  $("#inputhoras option[value='" + horas + "']").attr('selected', 'selected'); 
+                }
+              }
+              )
+            },
+          });
+        }
+
+      setHoras();
+
       function altera(id_filme){      
           $.ajax({            
             url: "/filmes/edit/" + id_filme, 
@@ -107,6 +123,7 @@
         <label for="nomes" class="form-label">Nome</label>
         <% if(resultado.id_filme) {%>
           <input type="text" class="form-control" id="inputnome" name="nome" placeholder="Escreva aqui o nome do Filme" value="<%= resultado.nome_filme%>">
+
           <%} else {%>
         <input type="text" class="form-control" id="inputnome" name="nome" placeholder="Escreva aqui o nome do Filme">
         <%}%>
@@ -120,7 +137,13 @@
       </div>
       <div class="col-md-6">
         <label for="inputhoras" class="form-label">Horas Totais</label>
-        <input type="text" class="form-control" id="inputhoras" name="horas" placeholder="Coloque aqui as horas totais do Filme">
+        <% if(resultado.id_filme) {%>
+          <script>alert('oi')</script>
+          <input type="text" class="form-control" id="inputhoras" name="horas" value="<%= resultado.horas_filme%>">
+          
+          <%} else {%>  
+            <input type="text" class="form-control" id="inputhoras" name="horas" placeholder="Coloque aqui as horas totais do Filme">
+            <%}%>            
       </div>
       <div class="col-md-6">
         <label for="inputgenero" class="form-label">Gênero</label>
